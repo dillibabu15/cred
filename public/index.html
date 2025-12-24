@@ -3,58 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Splitwise Demo - Expense Sharing System</title>
+    <title>Splitwise Demo</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
+        .container { max-width: 1200px; margin: 0 auto; }
         .header {
             background: white;
             padding: 30px;
             border-radius: 10px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-
-        .header h1 {
-            color: #667eea;
-            margin-bottom: 10px;
+        .header h1 { color: #667eea; margin-bottom: 10px; }
+        .workflow {
+            background: #f0f7ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #667eea;
         }
-
-        .header p {
-            color: #666;
-            font-style: italic;
-        }
-
+        .workflow h3 { color: #667eea; font-size: 14px; margin-bottom: 8px; }
+        .workflow ol { margin-left: 20px; color: #555; font-size: 13px; }
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 20px;
-            margin-bottom: 20px;
         }
-
         .card {
             background: white;
             border-radius: 10px;
             padding: 25px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-
         .card h2 {
             color: #333;
             margin-bottom: 15px;
@@ -62,11 +48,7 @@
             border-bottom: 2px solid #667eea;
             padding-bottom: 10px;
         }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
+        .form-group { margin-bottom: 15px; }
         label {
             display: block;
             margin-bottom: 5px;
@@ -74,27 +56,14 @@
             font-weight: 500;
             font-size: 0.9em;
         }
-
-        input, select, textarea {
+        input, select {
             width: 100%;
             padding: 10px;
             border: 2px solid #e0e0e0;
             border-radius: 5px;
             font-size: 14px;
-            transition: border-color 0.3s;
         }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        textarea {
-            font-family: monospace;
-            min-height: 80px;
-            resize: vertical;
-        }
-
+        input:focus, select:focus { outline: none; border-color: #667eea; }
         button {
             background: #667eea;
             color: white;
@@ -104,183 +73,59 @@
             cursor: pointer;
             font-size: 14px;
             font-weight: 600;
-            transition: background 0.3s;
             width: 100%;
         }
-
-        button:hover {
-            background: #5568d3;
-        }
-
-        button:active {
-            transform: scale(0.98);
-        }
-
+        button:hover { background: #5568d3; }
         .response {
-            background: #f5f5f5;
-            border-left: 4px solid #667eea;
-            padding: 15px;
-            border-radius: 5px;
             margin-top: 15px;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 13px;
             display: none;
-            max-height: 300px;
-            overflow-y: auto;
         }
-
-        .response.show {
-            display: block;
-        }
-
-        .response.success {
-            background: #e8f5e9;
-            border-left-color: #4caf50;
-        }
-
-        .response.error {
-            background: #ffebee;
-            border-left-color: #f44336;
-        }
-
-        .response pre {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: monospace;
-            font-size: 12px;
-            margin: 0;
-        }
-
-        .balances-output {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .balances-output h2 {
-            color: #333;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #667eea;
-            padding-bottom: 10px;
-        }
-
-        .balance-section {
-            margin-bottom: 30px;
-        }
-
-        .balance-section h3 {
-            color: #555;
-            margin-bottom: 15px;
-            font-size: 1.1em;
-        }
-
-        .balance-item {
-            padding: 12px;
-            background: #f9f9f9;
-            border-radius: 5px;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .balance-positive {
-            border-left: 4px solid #4caf50;
-        }
-
-        .balance-negative {
-            border-left: 4px solid #f44336;
-        }
-
-        .amount-positive {
-            color: #4caf50;
-            font-weight: 600;
-        }
-
-        .amount-negative {
-            color: #f44336;
-            font-weight: 600;
-        }
-
-        .transaction-item {
-            padding: 12px;
-            background: #e3f2fd;
-            border-radius: 5px;
-            margin-bottom: 8px;
-            border-left: 4px solid #2196f3;
-        }
-
-        .hint {
-            font-size: 12px;
-            color: #888;
-            margin-top: 5px;
-            font-style: italic;
-        }
-
-        .quick-fill {
-            display: inline-block;
-            font-size: 11px;
-            color: #667eea;
-            cursor: pointer;
-            margin-left: 10px;
-            text-decoration: underline;
-        }
-
-        .quick-fill:hover {
-            color: #5568d3;
-        }
-
-        .user-list, .group-list {
-            background: #f9f9f9;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 10px;
-            max-height: 150px;
-            overflow-y: auto;
-            font-size: 12px;
-        }
-
-        .user-item, .group-item {
-            padding: 5px;
-            margin: 3px 0;
-            background: white;
-            border-radius: 3px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .user-item:hover, .group-item:hover {
-            background: #e3f2fd;
-        }
-
-        @media (max-width: 768px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        .response.success { background: #d4edda; color: #155724; }
+        .response.error { background: #f8d7da; color: #721c24; }
+        .hint { font-size: 12px; color: #888; margin-top: 5px; }
+        .participants-builder { background: #f9f9f9; padding: 15px; border-radius: 5px; margin-top: 10px; }
+        .participant-item { display: flex; gap: 10px; margin-bottom: 10px; }
+        .participant-item select { flex: 1; }
+        .participant-item input { flex: 0.6; }
+        .remove-btn { background: #f44336; padding: 8px 12px; border-radius: 5px; width: auto; font-size: 12px; }
+        .add-participant-btn { background: #4caf50; margin-top: 10px; padding: 8px 16px; width: auto; font-size: 13px; }
+        .split-type-info { background: #fff3cd; padding: 10px; border-radius: 5px; margin: 10px 0; font-size: 12px; color: #856404; }
+        .transaction-item { padding: 12px; background: #e3f2fd; border-radius: 5px; margin: 8px 0; border-left: 4px solid #2196f3; }
+        .empty-state { text-align: center; padding: 30px; color: #999; font-style: italic; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
         <div class="header">
-            <h1>💰 Splitwise Demo - Expense Sharing System</h1>
-            <p>Demo UI for backend expense-sharing system (Splitwise-style)</p>
+            <h1>💰 Splitwise Expense Sharing</h1>
+            <p>Simple UI for testing expense sharing backend</p>
+            <div class="workflow">
+                <h3>📝 Quick Start:</h3>
+                <ol>
+                    <li>Create 2-3 users</li>
+                    <li>Create a group</li>
+                    <li>Add members to group</li>
+                    <li>Add expenses (dropdowns auto-populate!)</li>
+                    <li>View balances</li>
+                </ol>
+            </div>
         </div>
 
-        <!-- Main Grid -->
         <div class="grid">
             <!-- Create User -->
             <div class="card">
                 <h2>👤 Create User</h2>
                 <form id="createUserForm">
                     <div class="form-group">
-                        <label for="userName">User Name</label>
+                        <label>Name</label>
                         <input type="text" id="userName" placeholder="e.g., Alice" required>
                     </div>
                     <button type="submit">Create User</button>
                 </form>
                 <div id="userResponse" class="response"></div>
-                <div id="userList" class="user-list" style="display: none;"></div>
             </div>
 
             <!-- Create Group -->
@@ -288,31 +133,35 @@
                 <h2>👥 Create Group</h2>
                 <form id="createGroupForm">
                     <div class="form-group">
-                        <label for="groupName">Group Name</label>
+                        <label>Group Name</label>
                         <input type="text" id="groupName" placeholder="e.g., Trip to Goa" required>
                     </div>
                     <div class="form-group">
-                        <label for="groupCreator">Created By (User ID)</label>
-                        <input type="text" id="groupCreator" placeholder="Paste user ID" required>
-                        <span class="hint">Click a user from the list above to copy ID</span>
+                        <label>Creator</label>
+                        <select id="groupCreator" required>
+                            <option value="">Select a user...</option>
+                        </select>
                     </div>
                     <button type="submit">Create Group</button>
                 </form>
                 <div id="groupResponse" class="response"></div>
-                <div id="groupList" class="group-list" style="display: none;"></div>
             </div>
 
             <!-- Add Member -->
             <div class="card">
-                <h2>➕ Add Member to Group</h2>
+                <h2>➕ Add Member</h2>
                 <form id="addMemberForm">
                     <div class="form-group">
-                        <label for="memberGroupId">Group ID</label>
-                        <input type="text" id="memberGroupId" placeholder="Paste group ID" required>
+                        <label>Group</label>
+                        <select id="memberGroup" required>
+                            <option value="">Select a group...</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="memberUserId">User ID to Add</label>
-                        <input type="text" id="memberUserId" placeholder="Paste user ID" required>
+                        <label>User to Add</label>
+                        <select id="memberUser" required>
+                            <option value="">Select a user...</option>
+                        </select>
                     </div>
                     <button type="submit">Add Member</button>
                 </form>
@@ -324,48 +173,54 @@
                 <h2>💸 Add Expense</h2>
                 <form id="addExpenseForm">
                     <div class="form-group">
-                        <label for="expenseGroupId">Group ID</label>
-                        <input type="text" id="expenseGroupId" placeholder="Paste group ID" required>
+                        <label>Group</label>
+                        <select id="expenseGroup" required>
+                            <option value="">Select a group...</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="expenseDescription">Description</label>
-                        <input type="text" id="expenseDescription" placeholder="e.g., Dinner at restaurant" required>
+                        <label>Description</label>
+                        <input type="text" id="expenseDescription" placeholder="e.g., Dinner" required>
                     </div>
                     <div class="form-group">
-                        <label for="expenseCategory">Category</label>
+                        <label>Category</label>
                         <select id="expenseCategory" required>
                             <option value="food">Food</option>
-                            <option value="trip">Trip</option>
-                            <option value="rent">Rent</option>
+                            <option value="transport">Transport</option>
+                            <option value="accommodation">Accommodation</option>
+                            <option value="entertainment">Entertainment</option>
+                            <option value="shopping">Shopping</option>
                             <option value="other">Other</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="expenseAmount">Amount (in smallest unit, e.g., cents)</label>
-                        <input type="number" id="expenseAmount" placeholder="e.g., 3000" required>
+                        <label>Amount (₹)</label>
+                        <input type="number" id="expenseAmount" placeholder="e.g., 500" required min="0.01" step="0.01">
+                        <div class="hint">Enter amount in rupees (e.g., 50 for ₹50)</div>
                     </div>
                     <div class="form-group">
-                        <label for="expensePaidBy">Paid By (User ID)</label>
-                        <input type="text" id="expensePaidBy" placeholder="Paste user ID" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="expenseSplitType">Split Type</label>
-                        <select id="expenseSplitType" required>
-                            <option value="EQUAL">EQUAL</option>
-                            <option value="EXACT">EXACT</option>
-                            <option value="PERCENT">PERCENT</option>
+                        <label>Paid By</label>
+                        <select id="expensePaidBy" required>
+                            <option value="">Select who paid...</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="expenseParticipants">
-                            Participants (JSON)
-                            <span class="quick-fill" onclick="fillEqualExample()">Equal Example</span>
-                            <span class="quick-fill" onclick="fillExactExample()">Exact Example</span>
-                            <span class="quick-fill" onclick="fillPercentExample()">Percent Example</span>
-                        </label>
-                        <textarea id="expenseParticipants" placeholder='["userId1", "userId2"]' required></textarea>
-                        <span class="hint">Format depends on split type</span>
+                        <label>Split Type</label>
+                        <select id="expenseSplitType" required>
+                            <option value="EQUAL">Equal Split</option>
+                            <option value="EXACT">Exact Amounts</option>
+                            <option value="PERCENT">Percentages</option>
+                        </select>
                     </div>
+                    
+                    <div id="splitTypeInfo" class="split-type-info"></div>
+                    
+                    <div id="participantsBuilder" class="participants-builder">
+                        <label>Participants</label>
+                        <div id="participantsList"></div>
+                        <button type="button" id="addParticipantBtn" class="add-participant-btn">+ Add Participant</button>
+                    </div>
+
                     <button type="submit">Add Expense</button>
                 </form>
                 <div id="expenseResponse" class="response"></div>
@@ -376,243 +231,345 @@
                 <h2>📊 View Balances</h2>
                 <form id="viewBalancesForm">
                     <div class="form-group">
-                        <label for="balanceGroupId">Group ID</label>
-                        <input type="text" id="balanceGroupId" placeholder="Paste group ID" required>
+                        <label>Group</label>
+                        <select id="balanceGroup" required>
+                            <option value="">Select a group...</option>
+                        </select>
                     </div>
-                    <button type="submit">Show Balances</button>
+                    <button type="submit">Get Balances</button>
                 </form>
-            </div>
-        </div>
-
-        <!-- Balances Output -->
-        <div class="balances-output" id="balancesOutput" style="display: none;">
-            <h2>Balance Summary</h2>
-            
-            <div class="balance-section">
-                <h3>💰 Raw Balances</h3>
-                <div id="rawBalances"></div>
-            </div>
-
-            <div class="balance-section">
-                <h3>✨ Simplified Transactions</h3>
-                <div id="simplifiedBalances"></div>
+                <div id="balanceResponse" class="response"></div>
+                <div id="balanceResults" style="margin-top:15px;display:none;"></div>
             </div>
         </div>
     </div>
 
     <script>
-        const API_BASE = '/api';
-        let users = [];
-        let groups = [];
+        let users = [], groups = [];
 
-        // Helper: Show response
-        function showResponse(elementId, data, isError = false) {
-            const el = document.getElementById(elementId);
-            el.className = `response show ${isError ? 'error' : 'success'}`;
-            el.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-        }
+        window.addEventListener('DOMContentLoaded', async () => {
+            await refreshUsers();
+            await refreshGroups();
+            initExpenseForm();
+        });
 
-        // Helper: API call
-        async function apiCall(endpoint, method = 'GET', body = null) {
-            const options = {
-                method,
-                headers: { 'Content-Type': 'application/json' }
-            };
-            if (body) options.body = JSON.stringify(body);
-            
-            const response = await fetch(`${API_BASE}${endpoint}`, options);
-            const data = await response.json();
-            
-            if (!response.ok) throw data;
-            return data;
-        }
-
-        // Load users and groups
-        async function loadUsersAndGroups() {
+        async function refreshUsers() {
             try {
-                users = await apiCall('/users');
-                groups = await apiCall('/groups');
-                updateUserList();
-                updateGroupList();
-            } catch (error) {
-                console.error('Error loading data:', error);
-            }
+                const res = await fetch('/api/users');
+                users = await res.json();
+                updateUserDropdowns();
+            } catch (e) {}
         }
 
-        // Update user list
-        function updateUserList() {
-            const listEl = document.getElementById('userList');
-            if (users.length === 0) {
-                listEl.style.display = 'none';
-                return;
-            }
-            listEl.style.display = 'block';
-            listEl.innerHTML = users.map(user => 
-                `<div class="user-item" onclick="copyToClipboard('${user.id}', '${user.name}')">${user.name} (${user.id})</div>`
-            ).join('');
+        async function refreshGroups() {
+            try {
+                const res = await fetch('/api/groups');
+                groups = await res.json();
+                updateGroupDropdowns();
+            } catch (e) {}
         }
 
-        // Update group list
-        function updateGroupList() {
-            const listEl = document.getElementById('groupList');
-            if (groups.length === 0) {
-                listEl.style.display = 'none';
-                return;
-            }
-            listEl.style.display = 'block';
-            listEl.innerHTML = groups.map(group => 
-                `<div class="group-item" onclick="copyToClipboard('${group.id}', '${group.name}')">${group.name} (${group.id})</div>`
-            ).join('');
+        function updateUserDropdowns() {
+            ['groupCreator', 'memberUser', 'expensePaidBy'].forEach(id => {
+                const sel = document.getElementById(id);
+                const curr = sel.value;
+                sel.innerHTML = '<option value="">Select...</option>';
+                users.forEach(u => {
+                    const opt = document.createElement('option');
+                    opt.value = u.id;
+                    opt.textContent = u.name;
+                    sel.appendChild(opt);
+                });
+                if (curr) sel.value = curr;
+            });
         }
 
-        // Copy to clipboard
-        function copyToClipboard(id, name) {
-            navigator.clipboard.writeText(id);
-            alert(`Copied ${name}'s ID: ${id}`);
+        function updateGroupDropdowns() {
+            ['memberGroup', 'expenseGroup', 'balanceGroup'].forEach(id => {
+                const sel = document.getElementById(id);
+                const curr = sel.value;
+                sel.innerHTML = '<option value="">Select...</option>';
+                groups.forEach(g => {
+                    const opt = document.createElement('option');
+                    opt.value = g.id;
+                    opt.textContent = `${g.name} (${g.members.length} members)`;
+                    sel.appendChild(opt);
+                });
+                if (curr) sel.value = curr;
+            });
+        }
+
+        function show(id, msg, ok) {
+            const el = document.getElementById(id);
+            el.textContent = msg;
+            el.className = 'response ' + (ok ? 'success' : 'error');
+            el.style.display = 'block';
         }
 
         // Create User
         document.getElementById('createUserForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const name = document.getElementById('userName').value;
             try {
-                const name = document.getElementById('userName').value;
-                const user = await apiCall('/users', 'POST', { name });
-                showResponse('userResponse', user);
-                document.getElementById('userName').value = '';
-                await loadUsersAndGroups();
-            } catch (error) {
-                showResponse('userResponse', error, true);
+                const res = await fetch('/api/users', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({name})
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    show('userResponse', `✓ User "${name}" created!`, true);
+                    document.getElementById('userName').value = '';
+                    await refreshUsers();
+                } else {
+                    show('userResponse', data.error, false);
+                }
+            } catch (e) {
+                show('userResponse', e.message, false);
             }
         });
 
         // Create Group
         document.getElementById('createGroupForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const name = document.getElementById('groupName').value;
+            const createdBy = document.getElementById('groupCreator').value;
             try {
-                const name = document.getElementById('groupName').value;
-                const createdBy = document.getElementById('groupCreator').value;
-                const group = await apiCall('/groups', 'POST', { name, createdBy });
-                showResponse('groupResponse', group);
-                document.getElementById('groupName').value = '';
-                document.getElementById('groupCreator').value = '';
-                await loadUsersAndGroups();
-            } catch (error) {
-                showResponse('groupResponse', error, true);
+                const res = await fetch('/api/groups', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({name, createdBy})
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    show('groupResponse', `✓ Group "${name}" created!`, true);
+                    document.getElementById('groupName').value = '';
+                    await refreshGroups();
+                } else {
+                    show('groupResponse', data.error, false);
+                }
+            } catch (e) {
+                show('groupResponse', e.message, false);
             }
         });
 
         // Add Member
         document.getElementById('addMemberForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const groupId = document.getElementById('memberGroup').value;
+            const userId = document.getElementById('memberUser').value;
             try {
-                const groupId = document.getElementById('memberGroupId').value;
-                const userId = document.getElementById('memberUserId').value;
-                const result = await apiCall(`/groups/${groupId}/members`, 'POST', { userId });
-                showResponse('memberResponse', result);
-                document.getElementById('memberUserId').value = '';
-                await loadUsersAndGroups();
-            } catch (error) {
-                showResponse('memberResponse', error, true);
+                const res = await fetch(`/api/groups/${groupId}/members`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({userId})
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    show('memberResponse', '✓ Member added!', true);
+                    await refreshGroups();
+                } else {
+                    show('memberResponse', data.error, false);
+                }
+            } catch (e) {
+                show('memberResponse', e.message, false);
             }
         });
+
+        // Expense Form
+        let pCount = 0;
+        
+        function initExpenseForm() {
+            document.getElementById('expenseSplitType').addEventListener('change', updateSplitInfo);
+            document.getElementById('expenseGroup').addEventListener('change', updatePDrops);
+            document.getElementById('addParticipantBtn').addEventListener('click', addP);
+            addP();
+        }
+
+        function updateSplitInfo() {
+            const type = document.getElementById('expenseSplitType').value;
+            const info = {
+                'EQUAL': '📌 Split equally among all',
+                'EXACT': '📌 Specify exact amounts',
+                'PERCENT': '📌 Specify percentages (must total 100%)'
+            };
+            document.getElementById('splitTypeInfo').textContent = info[type] || '';
+            document.getElementById('participantsList').innerHTML = '';
+            pCount = 0;
+            addP();
+        }
+
+        function updatePDrops() {
+            const gid = document.getElementById('expenseGroup').value;
+            if (!gid) return;
+            const group = groups.find(g => g.id === gid);
+            if (!group) return;
+            
+            const paid = document.getElementById('expensePaidBy');
+            paid.innerHTML = '<option value="">Select...</option>';
+            group.members.forEach(mid => {
+                const u = users.find(u => u.id === mid);
+                if (u) {
+                    const opt = document.createElement('option');
+                    opt.value = u.id;
+                    opt.textContent = u.name;
+                    paid.appendChild(opt);
+                }
+            });
+            
+            document.querySelectorAll('.participant-select').forEach(sel => {
+                const curr = sel.value;
+                sel.innerHTML = '<option value="">Select...</option>';
+                group.members.forEach(mid => {
+                    const u = users.find(u => u.id === mid);
+                    if (u) {
+                        const opt = document.createElement('option');
+                        opt.value = u.id;
+                        opt.textContent = u.name;
+                        sel.appendChild(opt);
+                    }
+                });
+                if (curr) sel.value = curr;
+            });
+        }
+
+        function addP() {
+            const type = document.getElementById('expenseSplitType').value;
+            const gid = document.getElementById('expenseGroup').value;
+            if (!gid) { alert('Select group first'); return; }
+            
+            const group = groups.find(g => g.id === gid);
+            if (!group) return;
+            
+            const div = document.createElement('div');
+            div.className = 'participant-item';
+            
+            const sel = document.createElement('select');
+            sel.className = 'participant-select';
+            sel.required = true;
+            sel.innerHTML = '<option value="">Select...</option>';
+            
+            group.members.forEach(mid => {
+                const u = users.find(u => u.id === mid);
+                if (u) {
+                    const opt = document.createElement('option');
+                    opt.value = u.id;
+                    opt.textContent = u.name;
+                    sel.appendChild(opt);
+                }
+            });
+            div.appendChild(sel);
+            
+            if (type === 'EXACT') {
+                const inp = document.createElement('input');
+                inp.type = 'number';
+                inp.placeholder = '₹ Amount';
+                inp.className = 'participant-amount';
+                inp.required = true;
+                inp.min = 0.01;
+                inp.step = 0.01;
+                div.appendChild(inp);
+            } else if (type === 'PERCENT') {
+                const inp = document.createElement('input');
+                inp.type = 'number';
+                inp.placeholder = '%';
+                inp.className = 'participant-percent';
+                inp.required = true;
+                inp.min = 0;
+                inp.max = 100;
+                div.appendChild(inp);
+            }
+            
+            const btn = document.createElement('button');
+            btn.textContent = '✕';
+            btn.className = 'remove-btn';
+            btn.type = 'button';
+            btn.onclick = () => div.remove();
+            div.appendChild(btn);
+            
+            document.getElementById('participantsList').appendChild(div);
+        }
 
         // Add Expense
         document.getElementById('addExpenseForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            try {
-                const groupId = document.getElementById('expenseGroupId').value;
-                const description = document.getElementById('expenseDescription').value;
-                const category = document.getElementById('expenseCategory').value;
-                const totalAmount = parseInt(document.getElementById('expenseAmount').value);
-                const paidBy = document.getElementById('expensePaidBy').value;
-                const splitType = document.getElementById('expenseSplitType').value;
-                const participants = JSON.parse(document.getElementById('expenseParticipants').value);
+            
+            const groupId = document.getElementById('expenseGroup').value;
+            const description = document.getElementById('expenseDescription').value;
+            const category = document.getElementById('expenseCategory').value;
+            const totalAmount = Math.round(parseFloat(document.getElementById('expenseAmount').value) * 100);
+            const paidBy = document.getElementById('expensePaidBy').value;
+            const splitType = document.getElementById('expenseSplitType').value;
+            
+            const pDivs = document.querySelectorAll('.participant-item');
+            let participants;
+            
+            if (splitType === 'EQUAL') {
+                participants = Array.from(pDivs).map(d => d.querySelector('.participant-select').value).filter(v => v);
+            } else if (splitType === 'EXACT') {
+                participants = Array.from(pDivs).map(d => ({
+                    userId: d.querySelector('.participant-select').value,
+                    amount: Math.round(parseFloat(d.querySelector('.participant-amount').value) * 100)
+                })).filter(p => p.userId);
+            } else if (splitType === 'PERCENT') {
+                participants = Array.from(pDivs).map(d => ({
+                    userId: d.querySelector('.participant-select').value,
+                    percent: parseFloat(d.querySelector('.participant-percent').value)
+                })).filter(p => p.userId);
+            }
 
-                const expense = await apiCall(`/groups/${groupId}/expenses`, 'POST', {
-                    description, category, totalAmount, paidBy, splitType, participants
+            try {
+                const res = await fetch(`/api/groups/${groupId}/expenses`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({description, category, totalAmount, paidBy, splitType, participants})
                 });
-                
-                showResponse('expenseResponse', expense);
-                document.getElementById('expenseDescription').value = '';
-                document.getElementById('expenseAmount').value = '';
-                document.getElementById('expenseParticipants').value = '';
-            } catch (error) {
-                showResponse('expenseResponse', error, true);
+                const data = await res.json();
+                if (res.ok) {
+                    show('expenseResponse', `✓ Expense "${description}" added!`, true);
+                    document.getElementById('expenseDescription').value = '';
+                    document.getElementById('expenseAmount').value = '';
+                } else {
+                    show('expenseResponse', data.error, false);
+                }
+            } catch (e) {
+                show('expenseResponse', e.message, false);
             }
         });
 
         // View Balances
         document.getElementById('viewBalancesForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const groupId = document.getElementById('balanceGroup').value;
             try {
-                const groupId = document.getElementById('balanceGroupId').value;
+                const res = await fetch(`/api/groups/${groupId}/balances/simplified`);
+                const data = await res.json();
                 
-                // Get raw balances
-                const rawData = await apiCall(`/groups/${groupId}/balances/raw`);
+                const results = document.getElementById('balanceResults');
+                results.style.display = 'block';
                 
-                // Get simplified balances
-                const simplifiedData = await apiCall(`/groups/${groupId}/balances/simplified`);
-                
-                // Display raw balances
-                const rawBalancesEl = document.getElementById('rawBalances');
-                const balances = rawData.balances;
-                if (Object.keys(balances).length === 0) {
-                    rawBalancesEl.innerHTML = '<p>No balances yet. Add some expenses!</p>';
+                if (res.ok && data.transactions && data.transactions.length > 0) {
+                    results.innerHTML = '<h3>💳 Transactions</h3>' +
+                        data.transactions.map(t => {
+                            const from = users.find(u => u.id === t.from);
+                            const to = users.find(u => u.id === t.to);
+                            return `<div class="transaction-item">
+                                <strong>${from?.name || t.from}</strong> pays 
+                                <strong>${to?.name || t.to}</strong>: 
+                                <strong>₹${(t.amount / 100).toFixed(2)}</strong>
+                            </div>`;
+                        }).join('');
+                    show('balanceResponse', '✓ Balances calculated!', true);
+                } else if (res.ok) {
+                    results.innerHTML = '<div class="empty-state">✓ All balanced!</div>';
+                    show('balanceResponse', '✓ Group is settled!', true);
                 } else {
-                    rawBalancesEl.innerHTML = Object.entries(balances).map(([userId, amount]) => {
-                        const isPositive = amount > 0;
-                        const className = isPositive ? 'balance-positive' : 'balance-negative';
-                        const amountClass = isPositive ? 'amount-positive' : 'amount-negative';
-                        const sign = isPositive ? '+' : '';
-                        const status = isPositive ? 'Should receive' : 'Owes';
-                        
-                        return `
-                            <div class="balance-item ${className}">
-                                <span><strong>${userId}</strong> (${status})</span>
-                                <span class="${amountClass}">${sign}${amount}</span>
-                            </div>
-                        `;
-                    }).join('');
+                    show('balanceResponse', data.error, false);
                 }
-                
-                // Display simplified transactions
-                const simplifiedEl = document.getElementById('simplifiedBalances');
-                const transactions = simplifiedData.transactions;
-                if (transactions.length === 0) {
-                    simplifiedEl.innerHTML = '<p>✅ All settled! No transactions needed.</p>';
-                } else {
-                    simplifiedEl.innerHTML = `
-                        <p><strong>${transactions.length} transaction(s) to settle all balances:</strong></p>
-                        ${transactions.map((t, i) => `
-                            <div class="transaction-item">
-                                <strong>#${i + 1}:</strong> ${t.from} pays ${t.to} → <strong>${t.amount}</strong>
-                            </div>
-                        `).join('')}
-                    `;
-                }
-                
-                document.getElementById('balancesOutput').style.display = 'block';
-                document.getElementById('balancesOutput').scrollIntoView({ behavior: 'smooth' });
-            } catch (error) {
-                alert('Error loading balances: ' + (error.error || 'Unknown error'));
+            } catch (e) {
+                show('balanceResponse', e.message, false);
             }
         });
-
-        // Example fill functions
-        function fillEqualExample() {
-            document.getElementById('expenseParticipants').value = '["userId1", "userId2", "userId3"]';
-        }
-
-        function fillExactExample() {
-            document.getElementById('expenseParticipants').value = '[{"userId": "userId1", "amount": 2000}, {"userId": "userId2", "amount": 1000}]';
-        }
-
-        function fillPercentExample() {
-            document.getElementById('expenseParticipants').value = '[{"userId": "userId1", "percent": 60}, {"userId": "userId2", "percent": 40}]';
-        }
-
-        // Load data on page load
-        loadUsersAndGroups();
     </script>
 </body>
 </html>
